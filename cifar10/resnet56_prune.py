@@ -108,7 +108,7 @@ start = time.time()
 finetune_acc = []
 finetune_loss = []
 for epoch in range(1, epochs + 1):
-    if epoch in [epochs*0.5,epoch*0.75]:
+    if epoch in [epochs*0.5,epochs*0.75]:
         for param_group in optimizer.param_groups:
             param_group['lr'] *= 0.1
     train(pruned_model, device, train_loader, optimizer, epoch)
