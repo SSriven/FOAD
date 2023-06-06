@@ -36,7 +36,7 @@ _, acc = test(model, device, test_loader)
 _print("--------prune after----------")
 x = next(iter(train_loader))[0].cuda()
 masks,cfg = model.channel_selected(x,t=t,s=s)   # Pruning
-np.savetxt(os.path.join(save, 'model_cfg_reverse(n='+ str(t) +',s='+ str(s) +').txt'),np.array(cfg),fmt='%d')
+np.savetxt(os.path.join(save, 'model_cfg(n='+ str(t) +',s='+ str(s) +').txt'),np.array(cfg),fmt='%d')
 pruned_model = vgg_16(cfg=cfg).to(device)
 _print(pruned_model)
 print_model_param_nums(_print,pruned_model)
@@ -75,7 +75,7 @@ start = time.time()
 finetune_acc = []
 finetune_loss = []
 for epoch in range(1, epochs + 1):
-    if epoch in [epochs*0.5,epoch*0.75]:
+    if epoch in [epochs*0.5,epochs*0.75]:
         for param_group in optimizer.param_groups:
             param_group['lr'] *= 0.1
     train(pruned_model, device, train_loader, optimizer, epoch)
@@ -87,7 +87,7 @@ for epoch in range(1, epochs + 1):
     is_best = acc > best_prec1
     best_prec1 = max(acc, best_prec1)
     if is_best:
-        torch.save(pruned_model.state_dict(), os.path.join(save, 'pruned_model_cifar10_reverse(n='+str(t)+'_'+str(s)+'_b'+str(BATCH_SIZZE)+').pth.tar'))
+        torch.save(pruned_model.state_dict(), os.path.join(save, 'pruned_model_cifar10(n='+str(t)+'_'+str(s)+'_b'+str(BATCH_SIZZE)+').pth.tar'))
 end = time.time()
 _print("time:{}".format(end - start))
 _print("best_acc:{:.4f}".format(best_prec1))
