@@ -18,7 +18,7 @@ save = 'VGG_16_model'
 t = 1
 s = 0
 
-train_loader,test_loader = load_cifar('cifar10',BATCH_SIZZE,BATCH_SIZZE)
+train_loader,test_loader = load_cifar('cifar10',64,BATCH_SIZZE)
 
 if not os.path.exists(save):
     os.makedirs(save)
@@ -34,7 +34,7 @@ _, acc = test(model, device, test_loader)
 
 
 _print("--------prune after----------")
-x = next(iter(train_loader))[0].cuda()
+x = next(iter(test_loader))[0].cuda()
 masks,cfg = model.channel_selected(x,t=t,s=s)   # Pruning
 np.savetxt(os.path.join(save, 'model_cfg(n='+ str(t) +',s='+ str(s) +').txt'),np.array(cfg),fmt='%d')
 pruned_model = vgg_16(cfg=cfg).to(device)
