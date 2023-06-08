@@ -18,7 +18,7 @@ save = 'ResNet56_model'
 t = 1
 s = 0
 
-train_loader,test_loader = load_cifar('cifar10',BATCH_SIZZE,BATCH_SIZZE)
+train_loader,test_loader = load_cifar('cifar10',64,BATCH_SIZZE)
 
 if not os.path.exists(save):
     os.makedirs(save)
